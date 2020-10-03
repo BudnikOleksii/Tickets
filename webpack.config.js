@@ -21,55 +21,53 @@ module.exports = {
         hot: true,
     },
     module: {
-        rules: [
-        {
-            use: {
-            loader: 'babel-loader',
-            options: {
-                presets: ['@babel/preset-env'],
-            },
-            },
-            test: /\.js$/,
-        },
-        {
-            test: /\.css$/,
-            use: [
-            {
-                loader: MiniCssExtractPlugin.loader,
+        rules: [{
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
+                },
+                test: /\.js$/,
             },
             {
-                loader: 'css-loader',
+                test: /\.css$/,
+                use: [{
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                    {
+                        loader: 'css-loader',
 
-                options: {
-                importLoaders: 1,
-                sourceMap: true,
-                },
+                        options: {
+                            importLoaders: 1,
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: () => [precss, autoprefixer],
+                        },
+                    },
+                ],
             },
             {
-                loader: 'postcss-loader',
-                options: {
-                plugins: () => [precss, autoprefixer],
-                },
+                test: /\.(png|jpe?g|gif)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]',
+                    },
+                }, ],
             },
-            ],
-        },
-        {
-            test: /\.(png|jpe?g|gif)$/,
-            use: [
-            {
-                loader: 'file-loader',
-                options: {
-                name: '[path][name].[ext]',
-                },
-            },
-            ],
-        },
         ],
     },
     plugins: [
-        new MiniCssExtractPlugin({ filename: './style.css' }),
+        new MiniCssExtractPlugin({
+            filename: './style.css'
+        }),
         new HtmlWebpackPlugin({
-        template: 'index.html',
+            template: 'index.html',
         }),
     ],
     output: {
