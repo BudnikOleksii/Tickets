@@ -31,7 +31,7 @@ class Api {
         }
     }
 
-    prices(params) {}
+    async prices(params) {}
 }
 
 const api = new Api(config);
